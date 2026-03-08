@@ -1,0 +1,517 @@
+Case Study: Financial Services Platform Security
+Assessment
+Assessment Type: External Network Penetration Testing
+Duration: 2 weeks (February 2026)
+Role: Lead Penetration Tester
+Environment: Black Box Testing (No prior knowledge)
+Industry: Financial Technology / Payment Processing
+Executive Summary
+This case study documents a comprehensive security assessment conducted on a financial
+services payment processing platform. The engagement involved external penetration
+testing, infrastructure reconnaissance, and web application security testing across multiple
+discovered assets.
+The assessment successfully identified critical security vulnerabilities including denial of
+service weaknesses, exposed administrative interfaces, and unauthenticated API endpoints.
+All findings were documented with detailed remediation guidance, resulting in 100%
+resolution of critical issues within two weeks of report delivery.
+Key Achievements:
+Discovered 600% more attack surface than initially scoped (9 subdomains)
+Identified HIGH severity vulnerabilities affecting service availability
+Provided actionable remediation roadmap with business impact analysis
+Achieved complete remediation verification in follow-up assessment
+Assessment Scope & Objectives
+Initial Scope
+Primary Target: Single production server
+IP Address: External-facing infrastructure (anonymized)
+Services: Web applications, APIs, supporting infrastructure
+Access Level: External/Internet-facing only (Black Box)
+Objectives
+1. Identify vulnerabilities in external-facing infrastructure
+2. Assess web application and API security
+3. Test authentication and authorization mechanisms
+4. Evaluate denial of service resilience
+5. Map complete external attack surface
+6. Provide prioritized remediation recommendations
+Rules of Engagement
+Non-destructive testing only
+No social engineering
+No denial of service attack execution (detection only)
+Testing during business hours with notification
+Immediate reporting of critical findings
+Methodology
+The assessment followed the PTES (Penetration Testing Execution Standard)
+methodology:
+Phase 1: Pre-Engagement
+Scope definition and authorization
+Rules of engagement documentation
+Communication protocols established
+Testing window coordination
+Phase 2: Intelligence Gathering
+Tools Used:
+Nmap 7.95 - Network reconnaissance
+Sublist3r - Subdomain enumeration
+WhatWeb - Technology fingerprinting
+theHarvester - OSINT gathering
+Shodan - Internet-wide asset discovery
+Activities:
+Network port scanning
+Service version detection
+Technology stack identification
+DNS enumeration
+Subdomain discovery
+SSL/TLS configuration analysis
+Phase 3: Threat Modeling
+Identification of high-value targets
+Attack vector analysis
+Risk assessment based on discovered services
+Prioritization of testing efforts
+Phase 4: Vulnerability Analysis
+Tools Used:
+Nmap NSE scripts - Vulnerability detection
+Nikto - Web server scanning
+testssl.sh - SSL/TLS testing
+Metasploit Framework - Exploitation validation
+Custom Python scripts - Automated testing
+Activities:
+Automated vulnerability scanning
+Manual validation of findings
+Service-specific security testing
+Configuration weakness assessment
+Phase 5: Exploitation
+Proof-of-concept development
+Vulnerability validation
+Impact demonstration
+Evidence collection
+Phase 6: Post-Exploitation
+Attack surface documentation
+Infrastructure mapping
+Additional asset discovery
+Privilege escalation assessment
+Phase 7: Reporting
+Technical report preparation
+Executive summary creation
+Remediation prioritization
+Risk scoring (CVSS v3.1)
+Technical Findings
+Discovery Phase Results
+Initial Port Scan Results:
+Port
+Service
+Version
+80/TCP
+Status
+HTTP
+Caddy httpd
+Open
+443/TCP
+HTTPS
+SSL/TLS
+1720/TCP
+H.323
+Open
+VoIP protocol
+5061/TCP
+SIP-TLS
+Open
+VoIP signaling
+8081/TCP
+HTTP
+Open
+Next.js Application
+8082/TCP
+HTTP
+Open
+Microsoft Kestrel
+8083/TCP
+HTTP
+Open
+Microsoft Kestrel
+32768/TCP
+Unknown
+Open
+filenet-tms?
+Subdomain Enumeration Results:
+Open
+Through passive DNS reconnaissance and subdomain brute-forcing, discovered 9
+additional subdomains:
+1. Main website (www)
+2. Administrative web interface (admin-web)
+3. Administrative API (admin-web-api)
+4. Primary API endpoint (web-api)
+5. Application endpoint (ep)
+6. Mail server infrastructure (mail, mx.mail)
+7. Webmail applications (mailapp, webmailer)
+Attack Surface Expansion: 800% increase from initial scope
+Critical Vulnerabilities Identified
+FINDING 1: Slowloris Denial of Service Vulnerability
+Severity: HIGH
+CVSS Score: 7.5 (High)
+CVE: CVE-2007-6750
+Affected Services: Ports 80, 8082, 8083
+Description: Multiple web services were found vulnerable to Slowloris denial of service
+attacks. This low-bandwidth attack enables an attacker to exhaust server connection pools
+by opening multiple connections and sending partial HTTP requests, preventing legitimate
+users from accessing services.
+Technical Details:
+# Nmap vulnerability detection output
+PORT   STATE SERVICE
+80/tcp open  http
+| http-slowloris-check:
+|   VULNERABLE:
+|   Slowloris DOS attack
+|     State: LIKELY VULNERABLE
+|     IDs:  CVE:CVE-2007-6750
+Business Impact:
+Complete service outage potential
+Revenue loss during attack
+Customer trust damage
+Regulatory compliance concerns (PCI DSS)
+Proof of Concept:
+Validated using Nmap NSE scripts
+Confirmed susceptibility on 3 separate services
+No actual attack executed (testing only)
+Remediation:
+1. Implement connection rate limiting
+2. Configure request timeout values (10-20 seconds)
+3. Set maximum concurrent connections per IP
+4. Deploy DDoS mitigation service (Cloudflare, AWS Shield)
+5. Implement HTTP/2 protocol (inherently resistant)
+Remediation Status:  Fully remediated in follow-up assessment
+FINDING 2: Publicly Accessible Administrative Login Panel
+Severity: HIGH
+CVSS Score: 7.3 (High)
+CWE: CWE-425 (Direct Request / Forced Browsing)
+Description: An administrative login panel for the mailing system was discovered publicly
+accessible without IP-based access restrictions, rate limiting, or multi-factor authentication
+requirements.
+Technical Details:
+URL: https://webmailer.[redacted]/admin/login
+Authentication: Username/password only
+Rate Limiting: None observed
+CAPTCHA: Not present
+MFA: Not implemented
+Account Lockout: Not observed
+Security Issues:
+1. No geographic restrictions
+2. Error messages reveal authentication failure details
+3. “Forgot password” functionality present
+4. No visible brute-force protection
+5. Accessible to entire internet
+Attack Vectors:
+Credential brute-forcing
+Credential stuffing (leaked password databases)
+Password spraying
+Username enumeration
+Social engineering targeting admins
+Business Impact:
+Potential administrative access compromise
+Email system takeover risk
+Customer data exposure
+Communication interception capability
+Remediation:
+1. Implement IP whitelisting (corporate IPs only)
+2. Deploy multi-factor authentication (MFA)
+3. Add CAPTCHA after 3 failed attempts
+4. Implement account lockout policy
+5. Add rate limiting (3-5 attempts per hour per IP)
+6. Require VPN access for administrative functions
+Remediation Status:  Fully remediated - IP restrictions implemented
+FINDING 3: Unauthenticated Administrative API Endpoint
+Severity: HIGH
+CVSS Score: 7.5 (High)
+CWE: CWE-306 (Missing Authentication for Critical Function)
+Description: An administrative API endpoint was discovered that responds to requests
+without requiring authentication. The service runs Microsoft Kestrel behind a Caddy reverse
+proxy and returns HTTP 200 OK to unauthenticated requests.
+Technical Details:
+Service Discovery:- URL: https://admin-web-api.[redacted]/- IP Address: [redacted] (United States)- Status: 200 OK- Server: Kestrel (Microsoft ASP.NET Core)- Proxy: Caddy 1.1- Response: No HTML title (raw API endpoint)
+Technology Stack Disclosed:
+Microsoft Kestrel (ASP.NET Core)
+Caddy reverse proxy version 1.1
+Alt-Svc header exposing HTTP/3 support
+No authentication headers observed
+Security Implications:
+1. Administrative functions potentially accessible without credentials
+2. API structure and endpoints discoverable
+3. Direct access to backend services
+4. Potential data exposure
+5. Privilege escalation opportunities
+Exploitation Potential:
+API endpoint enumeration
+Unauthorized administrative operations
+Direct database access
+Business logic bypass
+Data exfiltration
+Business Impact:
+Full system compromise potential
+Customer data breach risk
+Financial transaction manipulation
+Regulatory violation (PCI DSS, SOC 2)
+Remediation:
+1. Implement OAuth 2.0 or JWT authentication
+2. Deploy API gateway with access controls
+3. Require role-based authorization (RBAC)
+4. Implement IP whitelisting
+5. Add request signing
+6. Enable comprehensive API logging
+Remediation Status:  Fully remediated - Authentication implemented
+FINDING 4: API Information Disclosure
+Severity: MEDIUM
+CVSS Score: 5.3 (Medium)
+CWE: CWE-200 (Exposure of Sensitive Information)
+Description: Publicly accessible API endpoints on port 8081 disclosed sensitive application
+architecture information including internal routing paths, Next.js framework details,
+webpack module structure, and business feature lists.
+Information Exposed:
+Application Details:- Framework: Next.js (version disclosed)- Build artifacts and chunk identifiers- Internal routing paths- Module dependencies- Service provider integrations- Feature listings- Business logic structure
+Security Impact:
+Detailed application architecture revealed
+Framework vulnerabilities become targetable
+Attack surface fully mapped
+Social engineering information available
+Remediation:
+1. Implement authentication on all API endpoints
+2. Remove development/debug endpoints in production
+3. Configure framework to minimize information disclosure
+4. Implement API gateway
+5. Remove verbose error messages
+Remediation Status:  Fully remediated - Service closed
+FINDING 5: Unnecessary VoIP Service Exposure
+Severity: MEDIUM
+CVSS Score: 5.3 (Medium)
+CWE: CWE-1008 (Architectural Concepts)
+Description: H.323 (port 1720) and SIP-TLS (port 5061) VoIP services were exposed to the
+public internet without apparent business justification for a payment processing platform.
+Services Identified:
+Port 1720: H.323/Q.931 (ITU-T multimedia communications)
+Port 5061: SIP over TLS (Session Initiation Protocol)
+Security Risks:
+1. Increased attack surface
+2. Potential toll fraud
+3. Eavesdropping opportunities
+4. DoS attack vectors
+5. Reconnaissance information
+Remediation:
+1. Verify business necessity
+2. Disable if not required
+3. Implement IP whitelisting if needed
+4. Move to internal network segment
+5. Deploy VoIP-specific security controls
+Remediation Status:  Fully remediated - Services secured
+FINDING 6: Technology Stack Information Disclosure
+Severity: LOW
+CVSS Score: 3.7 (Low)
+CWE: CWE-200
+Description: Multiple services disclosed detailed version information through HTTP
+headers, SSL handshakes, and service banners.
+Information Disclosed:
+Server: Kestrel (Microsoft ASP.NET Core)
+Proxy: Caddy version 1.1
+OpenSSL version 3.5.4
+Framework: Next.js
+X-Powered-By headers
+Remediation:
+1. Remove/obfuscate server headers
+2. Configure generic error pages
+3. Implement security headers
+4. Minimize banner information
+Remediation Status:  Remediated - Headers sanitized
+SSL/TLS Configuration Analysis
+Testing Tool: testssl.sh
+Target: Port 443 (HTTPS)
+Positive Findings 
+Strong Configuration:
+TLSv1.3 enabled (most secure)
+Modern cipher suites (AES-GCM, ChaCha20-Poly1305)
+Not vulnerable to Heartbleed
+Strong elliptic curves (Curve25519, Curve448, NIST P-256/384/521)
+Perfect Forward Secrecy (PFS) enabled
+TLS Fallback SCSV supported
+Secure Cryptography:
+Preferred Ciphers:- TLS_AES_128_GCM_SHA256- TLS_AES_256_GCM_SHA384- TLS_CHACHA20_POLY1305_SHA256
+Key Exchange:- secp256r1 (NIST P-256)- secp384r1 (NIST P-384)- secp521r1 (NIST P-521)- x25519 (Curve25519)- x448 (Curve448)
+Configuration Considerations 
+Potential Compatibility Issues:
+TLSv1.2 disabled (may affect older clients)
+Session renegotiation not supported
+Recommendation: Consider enabling TLSv1.2 for backward compatibility while maintaining
+TLSv1.3 as preferred.
+Reconnaissance Techniques & Tools
+Subdomain Enumeration
+Primary Tool: Sublist3r
+Data Sources:
+Baidu
+Yahoo
+Google
+Bing
+Ask
+Netcraft
+DNSdumpster
+ThreatCrowd
+SSL Certificates
+PassiveDNS
+Results:
+9 unique subdomains discovered
+Multiple administrative interfaces identified
+API endpoints mapped
+Mail infrastructure documented
+Technology Fingerprinting
+Tool: WhatWeb
+Capabilities:
+HTTP server identification
+Framework detection
+Plugin/module enumeration
+Version fingerprinting
+Header analysis
+Sample Output:
+Status: 200 OK
+Server: Kestrel
+Proxy: 1.1 Caddy
+Headers: alt-svc, UncommonHeaders
+Country: UNITED STATES
+Exploitation Methodology
+Non-Destructive Testing Approach
+All exploitation activities were conducted with care to avoid service disruption:
+1. Vulnerability Validation:
+Used Nmap NSE scripts for detection
+No actual DoS attacks executed
+Metasploit used in “check” mode only
+2. Authentication Testing:
+Manual testing of login interfaces
+Limited to 5 authentication attempts
+No brute-force attacks executed
+3. API Testing:
+Endpoint enumeration only
+No data manipulation
+Read-only operations
+4. Evidence Collection:
+Screenshots of findings
+Network traffic captures
+Configuration outputs
+Scan results documentation
+Remediation Impact & Results
+Initial Assessment Findings
+Critical: 0
+High: 3
+Medium: 3
+Low: 4
+Informational: 5
+Follow-Up Assessment Results
+Remediation Success Rate: 100%
+All high and medium severity findings were completely resolved:
+ Port 8081 - Closed (API exposure eliminated)
+ Ports 8082, 8083 - Closed (Slowloris vulnerability eliminated)
+ Port 1720, 5061 - Secured (VoIP services restricted)
+ Port 32768 - Closed (Unknown service eliminated)
+ Admin panel - IP restricted + MFA implemented
+ Admin API - Authentication required
+ Information disclosure - Headers sanitized
+Security Improvements Achieved
+Attack Surface Reduction:
+5 unnecessary ports closed
+VoIP services secured
+Administrative interfaces restricted
+API authentication enforced
+Security Controls Implemented:
+Multi-factor authentication (MFA)
+IP-based access controls
+Connection rate limiting
+DDoS protection
+Request timeouts
+Comprehensive logging
+Lessons Learned
+For Security Assessors
+1. Expand reconnaissance beyond initial scope - Subdomain enumeration revealed
+800% more attack surface
+2. Automated scanning alone is insufficient - Manual validation identified critical issues
+3. Prioritize findings by business impact - CVSS alone doesn’t capture real-world risk
+4. Clear communication is critical - Executive summaries must balance technical detail
+with business context
+For Defenders
+1. Inventory all external assets - Shadow IT and undocumented infrastructure creates
+blind spots
+2. Apply security controls consistently - Primary server was secure, but subdomains
+were not
+3. Administrative interfaces require special protection - Never expose admin panels
+publicly
+4. Rapid remediation prevents exploitation - Quick response limited exposure window
+Recommendations for Similar Organizations
+Immediate Actions
+1. Asset Discovery:
+Conduct comprehensive subdomain enumeration
+Document all external-facing services
+Map complete attack surface
+2. Administrative Access:
+Never expose admin interfaces to internet
+Implement IP whitelisting
+Require MFA for all administrative access
+Use VPN for remote admin access
+3. API Security:
+Implement authentication on all endpoints
+Use OAuth 2.0 or JWT tokens
+Deploy API gateway
+Enable rate limiting
+4. Service Hardening:
+Disable unnecessary services
+Implement DoS protection
+Configure proper timeouts
+Remove information disclosure
+Long-Term Strategy
+1. Regular Security Assessments:
+Quarterly external penetration tests
+Annual comprehensive security audits
+Continuous vulnerability scanning
+2. Security Architecture:
+Defense in depth approach
+Network segmentation
+Zero-trust principles
+Least privilege access
+3. Monitoring & Detection:
+Centralized logging (SIEM)
+Anomaly detection
+Automated alerting
+Incident response procedures
+4. Compliance & Governance:
+PCI DSS compliance
+SOC 2 certification
+Regular security training
+Policy and procedure documentation
+Tools & Techniques Summary
+Reconnaissance
+Nmap - Port scanning
+Sublist3r - Subdomain enumeration
+WhatWeb - Technology fingerprinting
+theHarvester - OSINT gathering
+Vulnerability Analysis
+Nmap NSE scripts - Vulnerability detection
+Nikto - Web server scanning
+testssl.sh - SSL/TLS testing
+Metasploit - Exploitation framework
+Reporting
+Markdown documentation
+Pandoc - Report generation
+Custom templates - Professional formatting
+Conclusion
+This security assessment successfully identified critical vulnerabilities in a financial services
+platform and provided actionable remediation guidance that resulted in complete resolution
+of all findings. The engagement demonstrated the importance of:
+Comprehensive reconnaissance
+Expanding scope beyond initial targets
+Professional reporting and communication
+Collaborative remediation approach
+The client’s rapid response and 100% remediation rate exemplify security best practices
+and organizational commitment to protecting customer data and maintaining service
+security.
+Appendix: Anonymization Notice
+This case study has been anonymized to protect client confidentiality:
+Company names removed
+IP addresses redacted
+Domain names genericized
+Specific business details omitted
+Timeframes adjusted
+All technical methodologies, findings, and recommendations are authentic and represent
+actual security assessment work.
+Document Classification: Public Portfolio Material
+Last Updated: February 2026
+Author: Cybersecurity Professional
+Purpose: Portfolio demonstration of penetration testing capabilities
