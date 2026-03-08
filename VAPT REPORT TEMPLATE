@@ -1,0 +1,538 @@
+VULNERABILITY ASSESSMENT AND PENETRATION
+TESTING (VAPT) REPORT TEMPLATE
+Professional Security Assessment Documentation
+Document Control
+Field
+Details
+Client Organization
+[Company Name]
+Assessment Type
+[External/Internal] [Black/Gray/White Box] Penetration Test
+Target Environment
+[Production/Staging/Development]
+Primary Contact
+[Name, Title, Email]
+Testing Window
+[Start Date] - [End Date]
+Report Date
+[Date]
+Report Version
+[Version Number]
+Classification
+CONFIDENTIAL - Internal Use Only
+Assessment Team:
+Lead Penetration Tester: [Name]
+Security Analyst: [Name]
+Technical Reviewer: [Name]
+Distribution List:
+Chief Information Security Officer (CISO)
+Chief Technology Officer (CTO)
+IT Security Manager
+Development Team Lead
+Compliance Officer
+Table of Contents
+1. 
+Executive Summary
+2. 
+Assessment Overview
+3. 
+Scope and Methodology
+4. 
+Risk Assessment
+5. 
+Technical Findings
+6. 
+Recommendations
+7. 
+Conclusion
+8. 
+Appendices
+1. Executive Summary
+1.1 Assessment Overview
+This document presents the findings of a [type] security assessment conducted on
+[organization]’s [system/application] infrastructure. The assessment was performed
+between [start date] and [end date] to identify security vulnerabilities and provide
+remediation guidance.
+Assessment Objectives:
+Identify vulnerabilities in [target] infrastructure
+Assess security posture against industry standards
+Validate security controls effectiveness
+Provide actionable remediation recommendations
+Key Metrics:
+Total Testing Hours: [X] hours
+Systems Tested: [X] systems
+Vulnerabilities Identified: [X] vulnerabilities
+Critical/High Findings: [X] findings
+1.2 Assessment Summary
+[Brief paragraph describing overall findings - was security posture good/fair/poor, major
+themes in findings, overall recommendations]
+1.3 Risk Summary Table
+Severity
+Count
+Remediation Priority
+Critical
+[X]
+Immediate (< 7 days)
+High
+[X]
+Urgent (< 14 days)
+Medium
+[X]
+Standard (< 30 days)
+Low
+[X]
+Planned (< 90 days)
+Informational
+[X]
+Advisory
+Total
+[X]
+1.4 Critical Findings Summary
+Finding 1: [Title]
+Risk: Critical
+Impact: [Brief impact description]
+Recommendation: [One-line recommendation]
+Finding 2: [Title]
+Risk: High
+Impact: [Brief impact description]
+Recommendation: [One-line recommendation]
+[Repeat for each critical/high finding]
+1.5 Business Impact Assessment
+Security Risks Identified:
+Compliance Implications:
+[Regulation 1]: [Compliance status and concerns]
+[Regulation 2]: [Compliance status and concerns]
+Recommendations Priority:
+1. [Top priority recommendation]
+2. [Second priority recommendation]
+3. [Third priority recommendation]
+2. Assessment Overview
+2.1 Background
+[Paragraph describing why the assessment was conducted, organizational context, any
+previous assessments]
+2.2 Assessment Scope
+In-Scope Assets:
+[IP ranges/domains]
+[Applications/services]
+[Network segments]
+[Specific systems]
+Out-of-Scope:
+[Excluded systems]
+[Restricted activities]
+[Third-party services]
+Testing Constraints:
+Testing window: [Days/hours]
+Allowed methods: [List permitted testing methods]
+Restricted actions: [List prohibited activities]
+2.3 Assessment Timeline
+Phase
+Start Date
+End Date
+Planning & Scoping
+[Date]
+Duration
+[Date]
+Reconnaissance
+[Date]
+[X] days
+[Date]
+Vulnerability Analysis
+[Date]
+[X] days
+[Date]
+Exploitation
+[Date]
+[X] days
+[Date]
+Reporting
+[Date]
+[X] days
+[Date]
+[X] days
+3. Scope and Methodology
+3.1 Assessment Methodology
+This assessment followed the [PTES/OWASP/Custom] penetration testing methodology:
+Phase 1: Pre-Engagement
+Scope definition and rules of engagement
+Authorization documentation
+Communication protocols establishment
+Phase 2: Intelligence Gathering
+Passive reconnaissance
+Active information gathering
+Infrastructure mapping
+Technology fingerprinting
+Phase 3: Threat Modeling
+Attack vector identification
+Asset prioritization
+Risk scenario development
+Phase 4: Vulnerability Analysis
+Automated scanning
+Manual testing
+Configuration review
+Code review (if applicable)
+Phase 5: Exploitation
+Proof-of-concept development
+Vulnerability validation
+Impact demonstration
+Phase 6: Post-Exploitation
+Privilege escalation testing
+Lateral movement assessment
+Data exfiltration simulation
+Persistence mechanism evaluation
+Phase 7: Reporting
+Finding documentation
+Risk assessment
+Remediation recommendations
+3.2 Testing Tools
+Network Security:
+Nmap [version] - Port scanning and service detection
+Masscan - High-speed port scanner
+Wireshark - Network protocol analysis
+Web Application Security:
+Burp Suite Professional - Web vulnerability scanning
+OWASP ZAP - Web application security testing
+Nikto - Web server scanner
+SQLMap - SQL injection testing
+Vulnerability Assessment:
+Nessus - Vulnerability scanner
+OpenVAS - Open source vulnerability scanner
+Metasploit Framework - Exploitation framework
+Reconnaissance:
+Sublist3r - Subdomain enumeration
+theHarvester - OSINT gathering
+Shodan - Internet-wide scanning
+DNSenum - DNS enumeration
+Custom Tools:
+[Custom script 1] - [Purpose]
+[Custom script 2] - [Purpose]
+3.3 Rules of Engagement
+Permitted Activities:
+[Activity 1]
+[Activity 2]
+[Activity 3]
+Restricted Activities:
+No denial of service attacks
+No social engineering (unless explicitly authorized)
+No physical security testing
+No data destruction or modification
+Communication Protocol:
+Emergency Contact: [Name, Phone, Email]
+Daily Status Updates: [Method, Time]
+Critical Finding Notification: [Process]
+4. Risk Assessment
+4.1 Risk Rating Methodology
+Risks are assessed using the CVSS v3.1 (Common Vulnerability Scoring System) standard:
+CVSS Score Ranges:
+9.0 - 10.0: Critical
+7.0 - 8.9: High
+4.0 - 6.9: Medium
+0.1 - 3.9: Low
+Risk Factors Considered:
+Attack Vector (Network/Adjacent/Local/Physical)
+Attack Complexity (Low/High)
+Privileges Required (None/Low/High)
+User Interaction (None/Required)
+Confidentiality Impact (None/Low/High)
+Integrity Impact (None/Low/High)
+Availability Impact (None/Low/High)
+4.2 Business Impact Classification
+Impact
+Level
+Description
+Examples
+Critical
+Severe business disruption, major financial
+loss, regulatory penalties
+Data breach, system
+compromise, service outage
+High
+Significant business impact, moderate
+financial loss
+Unauthorized access, data
+exposure
+Medium Limited business impact, minor financial loss
+Information disclosure,
+configuration weakness
+Low
+Minimal business impact
+Best practice violations,
+informational findings
+5. Technical Findings
+5.1 Finding Template
+Use this template for each vulnerability discovered:
+FINDING [#]: [Vulnerability Title]
+Severity: [Critical/High/Medium/Low]
+CVSS Score: [X.X] ([Severity])
+CVSS Vector: CVSS:3.1/AV:[X]/AC:[X]/PR:[X]/UI:[X]/S:[X]/C:[X]/I:[X]/A:[X]
+CWE Classification: CWE-[Number]: [Weakness Name]
+CVE Identifier: CVE-[YEAR]-[NUMBER] (if applicable)
+Description
+[Detailed explanation of the vulnerability in plain language]
+Technical Details
+Affected Systems:
+[System/IP 1]
+[System/IP 2]
+Affected Components:
+[Component/Service 1]
+[Component/Service 2]
+Vulnerability Mechanics: [Technical explanation of how the vulnerability works]
+Proof of Concept
+[Code, commands, or steps to reproduce the vulnerability]
+Evidence: [Screenshots, logs, or other evidence - reference appendix if lengthy]
+Impact Analysis
+Confidentiality Impact: [How this affects data confidentiality]
+Integrity Impact: [How this affects data or system integrity]
+Availability Impact: [How this affects service availability]
+Business Impact:
+[Impact to operations]
+[Financial implications]
+[Regulatory concerns]
+[Reputational damage potential]
+Exploitation Scenario
+Attack Path:
+1. [Step 1 of exploitation]
+2. [Step 2 of exploitation]
+3. [Step 3 of exploitation]
+4. [Potential outcome]
+Required Prerequisites:
+[Prerequisite 1]
+[Prerequisite 2]
+Likelihood of Exploitation: [High/Medium/Low]
+Affected Systems Detail
+System
+[Name]
+IP Address
+[IP]
+Service
+[Service]
+Version
+Status
+[Version]
+Remediation Recommendations
+Immediate Actions (< 7 days):
+1. [Action 1]
+2. [Action 2]
+3. [Action 3]
+Short-term Actions (< 30 days):
+1. [Action 1]
+2. [Action 2]
+Long-term Actions:
+1. [Action 1]
+2. [Action 2]
+Specific Remediation Steps:
+[Detailed technical steps to fix the vulnerability]
+Verification Method: [How to verify the fix was successful]
+References
+[Reference 1 - URL or citation]
+[Reference 2 - URL or citation]
+[Reference 3 - URL or citation]
+Vulnerable
+5.2 Sample Findings
+[Include 3-5 example findings using the above template]
+6. Recommendations
+6.1 Prioritized Remediation Roadmap
+Week 1-2: Critical Priorities
+1. [Action item 1]
+Responsible: [Role/Team]
+Resources: [Required resources]
+Success Metric: [How to measure]
+2. [Action item 2]
+Responsible: [Role/Team]
+Resources: [Required resources]
+Success Metric: [How to measure]
+Month 1: High Priorities
+1. [Action item 1]
+2. [Action item 2]
+3. [Action item 3]
+Month 2-3: Medium Priorities
+1. [Action item 1]
+2. [Action item 2]
+3. [Action item 3]
+Ongoing: Security Improvements
+1. [Action item 1]
+2. [Action item 2]
+3. [Action item 3]
+6.2 Strategic Security Recommendations
+Security Architecture:
+[Recommendation 1]
+[Recommendation 2]
+[Recommendation 3]
+Security Operations:
+[Recommendation 1]
+[Recommendation 2]
+[Recommendation 3]
+Security Awareness:
+[Recommendation 1]
+[Recommendation 2]
+[Recommendation 3]
+Compliance & Governance:
+[Recommendation 1]
+[Recommendation 2]
+[Recommendation 3]
+6.3 Quick Wins
+These are low-effort, high-impact improvements that can be implemented immediately:
+1. [Quick Win 1]
+Effort: Low
+Impact: High
+Timeline: < 1 week
+2. [Quick Win 2]
+Effort: Low
+Impact: Medium
+Timeline: < 1 week
+7. Conclusion
+7.1 Overall Assessment
+[Comprehensive paragraph summarizing the overall security posture, major themes, and
+key recommendations]
+7.2 Positive Security Observations
+Things done well:
+[Positive observation 1]
+[Positive observation 2]
+[Positive observation 3]
+7.3 Key Takeaways
+1. [Takeaway 1]
+2. [Takeaway 2]
+3. [Takeaway 3]
+7.4 Next Steps
+Immediate:
+1. [Action 1]
+2. [Action 2]
+Follow-up Assessment:
+Recommended timeframe: [X] months
+Focus areas: [Areas to retest]
+8. Appendices
+Appendix A: Detailed Scan Results
+Network Scan Results:
+[Nmap scan output or summary]
+Vulnerability Scan Results:
+[Detailed scan results]
+Appendix B: Screenshots and Evidence
+Figure 1: [Description] [Screenshot or reference]
+Figure 2: [Description] [Screenshot or reference]
+Appendix C: Technical References
+Standards and Frameworks:
+OWASP Top 10 2021: https://owasp.org/Top10/
+NIST Cybersecurity Framework: https://www.nist.gov/cyberframework
+CWE Top 25: https://cwe.mitre.org/top25/
+PTES: http://www.pentest-standard.org/
+Vulnerability Databases:
+CVE: https://cve.mitre.org/
+NVD: https://nvd.nist.gov/
+Exploit-DB: https://www.exploit-db.com/
+Tool Documentation:
+Nmap: https://nmap.org/
+Metasploit: https://www.metasploit.com/
+Burp Suite: https://portswigger.net/burp
+Appendix D: Testing Methodology Details
+[Detailed methodology documentation, testing checklists, etc.]
+Appendix E: Risk Rating Matrix
+Likelihood → Impact ↓
+Low
+Medium
+High
+Medium
+High
+Critical
+High
+Medium
+Low
+High
+Critical
+Medium
+High
+High
+Low
+Low
+Low
+Medium
+Medium
+Appendix F: Remediation Tracking Template
+Finding ID
+Title
+Severity
+Assigned To
+Target Date
+F001
+[Title]
+Critical
+[Name]
+Status
+Verified
+[Date]
+F002
+[Title]
+High
+[Name]
+Open
+No
+[Date]
+Appendix G: Glossary of Terms
+Open
+No
+Attack Surface: The sum of all points where an unauthorized user can try to enter or
+extract data
+CVE: Common Vulnerabilities and Exposures - standardized identifier for security
+vulnerabilities
+CVSS: Common Vulnerability Scoring System - industry standard for assessing severity
+CWE: Common Weakness Enumeration - categorization of software weaknesses
+Exploit: Code or technique used to take advantage of a vulnerability
+Penetration Testing: Authorized simulated attack to evaluate security
+PoC: Proof of Concept - demonstration that vulnerability exists
+Remediation: Process of fixing identified vulnerabilities
+VAPT: Vulnerability Assessment and Penetration Testing
+Zero-Day: Vulnerability unknown to vendor or without available patch
+Document Approval
+Prepared By:
+Name: [Penetration Tester Name]
+Title: [Title]
+Signature: _________________
+Date: _________________
+Reviewed By:
+Name: [Reviewer Name]
+Title: [Title]
+Signature: _________________
+Date: _________________
+Approved By:
+Name: [Client Name]
+Title: [Title]
+Signature: _________________
+Date: _________________
+Disclaimer
+This report contains confidential information about security vulnerabilities discovered during
+authorized penetration testing. This information should be treated as highly sensitive and
+distributed only to personnel with a legitimate need to know.
+The findings in this report represent the security posture at the time of testing. Security is
+an ongoing process, and regular reassessment is recommended.
+This assessment was conducted using non-destructive testing methods. While every effort
+was made to avoid service disruption, the client acknowledges that testing carries inherent
+risks.
+END OF REPORT
+Usage Notes for This Template
+This template is designed for:
+1. Professional penetration testing engagements
+2. Portfolio demonstration
+3. Educational purposes
+4. Security assessment documentation
+How to use:
+1. Replace all [bracketed] placeholders with actual data
+2. Remove sections not applicable to your assessment
+3. Add custom sections as needed for your specific engagement
+4. Ensure all findings follow the detailed template format
+5. Include actual evidence (screenshots, logs, etc.)
+6. Customize methodology to match your approach
+Best Practices:
+Use clear, non-technical language in Executive Summary
+Include visual aids (diagrams, charts, screenshots)
+Provide specific, actionable remediation steps
+Include both technical and business impact
+Reference industry standards and frameworks
+Maintain professional tone throughout
+Proofread thoroughly before delivery
+Remember:
+Never include client confidential information in public portfolios
+Anonymize all real assessment data
+Use generic examples for portfolio demonstration
+Always obtain client permission before sharing any details
+Template Version: 2.0
+Last Updated: February 2026
+Maintained By: Cybersecurity Professional
+License: Free to use for professional security assessments
